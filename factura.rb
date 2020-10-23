@@ -32,9 +32,19 @@ class Facturacion
     end
 
     def pintarDetalleFacturacion(estado, tasaImpuesto)
-        puts "******** Detalle de Facturación ****************"
+        puts "************ Detalle de Facturación ************"
         puts "Estado: #{estado}"
         puts "Tasa de Impuesto: #{convertirPorcentaje(tasaImpuesto)}%"
+        puts "************************************************"
+    end
+
+    def mapaDeImpuestosXEstado()
+        puts"Estado       Impuesto"
+        puts"UT            6.85%"
+        puts"NV            8.00%"
+        puts"TX            6.25%"
+        puts"AL            4.00%"
+        puts"CA            8.25%"
         puts "************************************************"
     end
 end
@@ -47,6 +57,9 @@ tasaImpuestoAplicado = facturacion.calculoTasaImpuestoFijo()
 descuentoAplicado = facturacion.calculoDescuentoFijo()
 facturacionTotal = precioBruto + precioBruto*tasaImpuestoAplicado - precioBruto*descuentoAplicado
 facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado)
+facturacion.mapaDeImpuestosXEstado()
 facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto)
 facturacion.pintarDescuento(facturacion.calculoDescuentoFijo, precioBruto)
+puts "************************************************"
 puts "Total: #{facturacionTotal}"
+puts "************************************************"
