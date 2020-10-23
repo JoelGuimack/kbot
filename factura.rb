@@ -1,4 +1,8 @@
 class Facturacion
+
+    def convertirPorcentaje(numero)
+        return numero.to_f*100
+    end
     def calcularPrecioBruto(cantidad, precioUnitario)
         return cantidad.to_f * precioUnitario.to_f
     end
@@ -27,9 +31,10 @@ class Facturacion
         puts "Descuento Aplicado(#{porcentajeDescuentoAplicado}): #{descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)}"
     end
 
-    def pintarDetalleFacturacion(estado)
+    def pintarDetalleFacturacion(estado, tasaImpuesto)
         puts "******** Detalle de Facturación ****************"
         puts "Estado: #{estado}"
+        puts "Tasa de Impuesto: #{convertirPorcentaje(tasaImpuesto)}%"
         puts "************************************************"
     end
 end
@@ -41,7 +46,7 @@ precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
 tasaImpuestoAplicado = facturacion.calculoTasaImpuestoFijo()
 descuentoAplicado = facturacion.calculoDescuentoFijo()
 facturacionTotal = precioBruto + precioBruto*tasaImpuestoAplicado - precioBruto*descuentoAplicado
-facturacion.pintarDetalleFacturacion(estado)
+facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado)
 facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto)
 facturacion.pintarDescuento(facturacion.calculoDescuentoFijo, precioBruto)
 puts "Total: #{facturacionTotal}"
