@@ -4,7 +4,7 @@ class Facturacion
         return numero.to_f*100.0
     end
     def calcularPrecioBruto(cantidad, precioUnitario)
-        return cantidad.to_f * precioUnitario.to_f
+        return cantidad.to_f*precioUnitario.to_f
     end
 
     def calculoTasaImpuestoAplicada(estado)
@@ -25,8 +25,14 @@ class Facturacion
         puts "Impuesto Aplicado Fijo(#{tasaImpuestoAplicado}) = #{impuestoAplicado(precioBruto, calculoTasaImpuestoAplicada(estado))}"
     end
 
-    def calculoDescuentoFijo()
-        return 0.03
+    def calculoPorcentajeDescuentoAplicado(precioBruto)
+        return case
+        when precioBruto > 15000.0  then 0.15
+        when precioBruto > 10000.0  then 0.1
+        when precioBruto > 7000.0 then 0.07
+        when precioBruto > 5000.0 then 0.05
+        when precioBruto > 1000.0   then 0.03
+        end
     end
     
     def descuentoAplicado(precioBruto, porcentajeDescuento)
@@ -61,12 +67,12 @@ estado = ARGV[2]
 facturacion= Facturacion.new()
 precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
 tasaImpuestoAplicado = facturacion.calculoTasaImpuestoAplicada(estado)
-descuentoAplicado = facturacion.calculoDescuentoFijo()
-facturacionTotal = precioBruto + precioBruto*tasaImpuestoAplicado - precioBruto*descuentoAplicado
+descuentoAplicado = facturacion.calculoPorcentajeDescuentoAplicado(precioBruto)
+facturacionTotal = precioBruto + facturacion.impuestoAplicado(precioBruto,tasaImpuestoAplicado) - facturacion.descuentoAplicado(precioBruto, descuentoAplicado)
 facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado)
 facturacion.mapaDeImpuestosXEstado()
 facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto, estado)
-facturacion.pintarDescuento(facturacion.calculoDescuentoFijo, precioBruto)
+facturacion.pintarDescuento(facturacion.calculoPorcentajeDescuentoAplicado(precioBruto), precioBruto)
 puts "************************************************"
 puts "Total: #{facturacionTotal}"
 puts "************************************************"
