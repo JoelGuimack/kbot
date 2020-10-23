@@ -29,6 +29,7 @@ class Facturacion
 end
 cantidad = ARGV[0]
 precioUnitario = ARGV[1]
+estado = ARGV[2]
 facturacion= Facturacion.new()
 precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
 tasaImpuestoAplicado = facturacion.calculoTasaImpuestoFijo()
