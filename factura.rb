@@ -45,12 +45,13 @@ class Facturacion
     end
 
     def mapaDeImpuestosXEstado()
-        puts"Estado       Impuesto"
-        puts"UT            6.85%"
-        puts"NV            8.00%"
-        puts"TX            6.25%"
-        puts"AL            4.00%"
-        puts"CA            8.25%"
+        puts"      IMPUESTO                     DESCUENTO     "
+        puts"Estado         Tasa         Más de            %  "
+        puts"UT             6.85%         $1000           3%  "       
+        puts"NV             8.00%         $5000           5%  "
+        puts"TX             6.25%         $7000           7%  "
+        puts"AL             4.00%         $10000          10% "
+        puts"CA             8.25%         $50000          15% "
         puts "************************************************"
     end
 end
