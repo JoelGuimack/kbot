@@ -18,6 +18,14 @@ class Facturacion
     def calculoDescuentoFijo()
         return 0.03
     end
+    
+    def descuentoAplicado(precioBruto, porcentajeDescuento)
+        return precioBruto.to_f*porcentajeDescuento.to_f
+    end
+
+    def pintarDescuento(porcentajeDescuentoAplicado, precioBruto)
+        puts "Descuento Aplicado(#{porcentajeDescuentoAplicado}): #{descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)}"
+    end
 end
 cantidad = ARGV[0]
 precioUnitario = ARGV[1]
@@ -27,4 +35,5 @@ tasaImpuestoAplicado = facturacion.calculoTasaImpuestoFijo()
 descuentoAplicado = facturacion.calculoDescuentoFijo()
 facturacionTotal = precioBruto + precioBruto*tasaImpuestoAplicado - precioBruto*descuentoAplicado
 facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto)
+facturacion.pintarDescuento(facturacion.calculoDescuentoFijo, precioBruto)
 puts "Total: #{facturacionTotal}"
