@@ -1,22 +1,28 @@
 class Facturacion
 
     def convertirPorcentaje(numero)
-        return numero.to_f*100
+        return numero.to_f*100.0
     end
     def calcularPrecioBruto(cantidad, precioUnitario)
         return cantidad.to_f * precioUnitario.to_f
     end
 
-    def calculoTasaImpuestoFijo()
-        return 0.0825
+    def calculoTasaImpuestoAplicada(estado)
+        return case estado
+        when "UT"  then 0.0685
+        when "NV"  then 0.08
+        when "TX"  then 0.0625
+        when "AL"  then 0.04
+        when "CA"  then 0.0825
+        end
     end
 
     def impuestoAplicado(precioBruto, tasaImpuesto)
         return precioBruto.to_f*tasaImpuesto.to_f
     end
-    def pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto)
+    def pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto, estado)
         puts "Cantidad: #{cantidad}, Precio Unitario: #{precioUnitario} = #{precioBruto}"
-        puts "Impuesto Aplicado Fijo(#{tasaImpuestoAplicado}) = #{impuestoAplicado(precioBruto, calculoTasaImpuestoFijo())}"
+        puts "Impuesto Aplicado Fijo(#{tasaImpuestoAplicado}) = #{impuestoAplicado(precioBruto, calculoTasaImpuestoAplicada(estado))}"
     end
 
     def calculoDescuentoFijo()
@@ -53,12 +59,12 @@ precioUnitario = ARGV[1]
 estado = ARGV[2]
 facturacion= Facturacion.new()
 precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
-tasaImpuestoAplicado = facturacion.calculoTasaImpuestoFijo()
+tasaImpuestoAplicado = facturacion.calculoTasaImpuestoAplicada(estado)
 descuentoAplicado = facturacion.calculoDescuentoFijo()
 facturacionTotal = precioBruto + precioBruto*tasaImpuestoAplicado - precioBruto*descuentoAplicado
 facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado)
 facturacion.mapaDeImpuestosXEstado()
-facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto)
+facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto, estado)
 facturacion.pintarDescuento(facturacion.calculoDescuentoFijo, precioBruto)
 puts "************************************************"
 puts "Total: #{facturacionTotal}"
