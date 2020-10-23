@@ -9,6 +9,7 @@ class Facturacion
 
     def calculoTasaImpuestoAplicada(estado)
         return case estado
+        
         when "UT"  then 0.0685
         when "NV"  then 0.08
         when "TX"  then 0.0625
@@ -62,11 +63,23 @@ class Facturacion
         puts"CA             8.25%         $50000          15% "
         puts "************************************************"
     end
+
+    def mensajeErrorEstadoDesconocido()
+    end
+
+    def setEstadoXDefecto(estado)
+        if estado==nil
+            estado = "CA"
+        else
+            return estado
+        end
+    end
+
 end
 cantidad = ARGV[0]
 precioUnitario = ARGV[1]
-estado = ARGV[2]
 facturacion= Facturacion.new()
+estado = facturacion.setEstadoXDefecto(ARGV[2])
 precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
 tasaImpuestoAplicado = facturacion.calculoTasaImpuestoAplicada(estado)
 porcentajeDescuentoAplicado = facturacion.calculoPorcentajeDescuentoAplicado(precioBruto)
