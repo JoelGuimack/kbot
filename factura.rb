@@ -9,12 +9,22 @@ class Facturacion
 
     def calculoTasaImpuestoAplicada(estado)
         return case estado
-        
         when "UT"  then 0.0685
         when "NV"  then 0.08
         when "TX"  then 0.0625
         when "AL"  then 0.04
         when "CA"  then 0.0825
+        end
+    end
+    
+    def verificarEstado(estado)
+        return case estado
+        when "UT"  then false
+        when "NV"  then false
+        when "TX"  then false
+        when "AL"  then false
+        when "CA"  then false
+        else true
         end
     end
 
@@ -65,6 +75,7 @@ class Facturacion
     end
 
     def mensajeErrorEstadoDesconocido()
+        puts "Por favor, ingrese un estado correcto..."
     end
 
     def setEstadoXDefecto(estado)
@@ -75,19 +86,29 @@ class Facturacion
         end
     end
 
+    def pintarTotal(total)
+        puts "************************************************"
+        puts "Total: #{total}"
+        puts "************************************************"
+    end
+
 end
 cantidad = ARGV[0]
 precioUnitario = ARGV[1]
 facturacion= Facturacion.new()
 estado = facturacion.setEstadoXDefecto(ARGV[2])
-precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
-tasaImpuestoAplicado = facturacion.calculoTasaImpuestoAplicada(estado)
-porcentajeDescuentoAplicado = facturacion.calculoPorcentajeDescuentoAplicado(precioBruto)
-facturacionTotal = precioBruto + facturacion.impuestoAplicado(precioBruto,tasaImpuestoAplicado) - facturacion.descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)
-facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado, porcentajeDescuentoAplicado)
-facturacion.mapaDeImpuestosXEstado()
-facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, porcentajeDescuentoAplicado, precioBruto, estado)
-#facturacion.pintarDescuento(facturacion.calculoPorcentajeDescuentoAplicado(precioBruto), precioBruto)
-puts "************************************************"
-puts "Total: #{facturacionTotal}"
-puts "************************************************"
+estadoDesconocido = false
+if estadoDesconocido == facturacion.verificarEstado(estado)
+    puts "#{facturacion.calculoTasaImpuestoAplicada(ARGV[2])}"
+    precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
+    tasaImpuestoAplicado = facturacion.calculoTasaImpuestoAplicada(estado)
+    porcentajeDescuentoAplicado = facturacion.calculoPorcentajeDescuentoAplicado(precioBruto)
+    facturacionTotal = precioBruto + facturacion.impuestoAplicado(precioBruto,tasaImpuestoAplicado) - facturacion.descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)
+    facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado, porcentajeDescuentoAplicado)
+    facturacion.mapaDeImpuestosXEstado()
+    facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, porcentajeDescuentoAplicado, precioBruto, estado)
+    #facturacion.pintarDescuento(facturacion.calculoPorcentajeDescuentoAplicado(precioBruto), precioBruto)
+    facturacion.pintarTotal(facturacionTotal)
+else
+    facturacion.mensajeErrorEstadoDesconocido
+end
