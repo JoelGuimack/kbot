@@ -20,9 +20,10 @@ class Facturacion
     def impuestoAplicado(precioBruto, tasaImpuesto)
         return precioBruto.to_f*tasaImpuesto.to_f
     end
-    def pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto, estado)
+    def pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, porcentajeDescuentoAplicado, precioBruto, estado)
         puts "Cantidad: #{cantidad}, Precio Unitario: #{precioUnitario} = #{precioBruto}"
-        puts "Impuesto Aplicado Fijo(#{tasaImpuestoAplicado}) = #{impuestoAplicado(precioBruto, calculoTasaImpuestoAplicada(estado))}"
+        puts "Impuesto Aplicado(#{tasaImpuestoAplicado}) = #{impuestoAplicado(precioBruto, calculoTasaImpuestoAplicada(estado))}"
+        puts "Descuento Aplicado(#{porcentajeDescuentoAplicado}) = #{descuentoAplicado(precioBruto, calculoPorcentajeDescuentoAplicado(precioBruto))}"
     end
 
     def calculoPorcentajeDescuentoAplicado(precioBruto)
@@ -43,10 +44,11 @@ class Facturacion
         puts "Descuento Aplicado(#{porcentajeDescuentoAplicado}): #{descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)}"
     end
 
-    def pintarDetalleFacturacion(estado, tasaImpuesto)
+    def pintarDetalleFacturacion(estado, tasaImpuesto, porcentajeDescuento)
         puts "************ Detalle de Facturación ************"
         puts "Estado: #{estado}"
         puts "Tasa de Impuesto: #{convertirPorcentaje(tasaImpuesto)}%"
+        puts "Porcentaje de Descuento: #{convertirPorcentaje(porcentajeDescuento)}%"
         puts "************************************************"
     end
 
@@ -67,12 +69,12 @@ estado = ARGV[2]
 facturacion= Facturacion.new()
 precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
 tasaImpuestoAplicado = facturacion.calculoTasaImpuestoAplicada(estado)
-descuentoAplicado = facturacion.calculoPorcentajeDescuentoAplicado(precioBruto)
-facturacionTotal = precioBruto + facturacion.impuestoAplicado(precioBruto,tasaImpuestoAplicado) - facturacion.descuentoAplicado(precioBruto, descuentoAplicado)
-facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado)
+porcentajeDescuentoAplicado = facturacion.calculoPorcentajeDescuentoAplicado(precioBruto)
+facturacionTotal = precioBruto + facturacion.impuestoAplicado(precioBruto,tasaImpuestoAplicado) - facturacion.descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)
+facturacion.pintarDetalleFacturacion(estado, tasaImpuestoAplicado, porcentajeDescuentoAplicado)
 facturacion.mapaDeImpuestosXEstado()
-facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto, estado)
-facturacion.pintarDescuento(facturacion.calculoPorcentajeDescuentoAplicado(precioBruto), precioBruto)
+facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, porcentajeDescuentoAplicado, precioBruto, estado)
+#facturacion.pintarDescuento(facturacion.calculoPorcentajeDescuentoAplicado(precioBruto), precioBruto)
 puts "************************************************"
 puts "Total: #{facturacionTotal}"
 puts "************************************************"
