@@ -26,6 +26,12 @@ class Facturacion
     def pintarDescuento(porcentajeDescuentoAplicado, precioBruto)
         puts "Descuento Aplicado(#{porcentajeDescuentoAplicado}): #{descuentoAplicado(precioBruto, porcentajeDescuentoAplicado)}"
     end
+
+    def pintarDetalleFacturacion(estado)
+        puts "******** Detalle de Facturación ****************"
+        puts "Estado: #{estado}"
+        puts "************************************************"
+    end
 end
 cantidad = ARGV[0]
 precioUnitario = ARGV[1]
@@ -35,6 +41,7 @@ precioBruto = facturacion.calcularPrecioBruto(cantidad, precioUnitario)
 tasaImpuestoAplicado = facturacion.calculoTasaImpuestoFijo()
 descuentoAplicado = facturacion.calculoDescuentoFijo()
 facturacionTotal = precioBruto + precioBruto*tasaImpuestoAplicado - precioBruto*descuentoAplicado
+facturacion.pintarDetalleFacturacion(estado)
 facturacion.pintarParametros(cantidad, precioUnitario, tasaImpuestoAplicado, precioBruto)
 facturacion.pintarDescuento(facturacion.calculoDescuentoFijo, precioBruto)
 puts "Total: #{facturacionTotal}"
